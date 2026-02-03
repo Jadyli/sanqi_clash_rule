@@ -196,7 +196,7 @@ function main(config) {
       type: "http",
     },
     personal: {
-      url: "https://gist.githubusercontent.com/Jadyli/86074d54a91c2d61748100ce1aa9cce0/raw/c00531ab2eadca7ee989925fb743f5324058d3e3/personal_rule.yaml",
+      url: "https://raw.githubusercontent.com/Jadyli/sanqi_clash_rule/refs/heads/main/personal_rule.yaml",
       path: "./ruleset/personal.yaml",
       behavior: "classical",
       interval: 86400,
