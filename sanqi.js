@@ -1,4 +1,37 @@
+// Bilibili 相关域名组
+const bilibiliDomains = [
+  "bilibili.co",
+  "biligame.com",
+  "biliapi.net",
+  "biliintl.co",
+  "maoer.co",
+  "missevan.com",
+  "maoercdn.com",
+  "hdslb.com",
+  "tapd.cn",
+];
+
+const customRules = [
+  ...bilibiliDomains.map((domain) => `DOMAIN-SUFFIX,${domain},BiliBili Group`),
+];
+
+// Bilibili 代理组
+const bilibiliProxyGroup = {
+  name: "BiliBili Group",
+  type: "select",
+  proxies: ["DIRECT", "BiliBili Office"],
+};
+
 function main(config) {
+  if (!config['proxies']) {
+    config['proxies'] = []
+  }
+  config['proxies'].push({
+    name: 'BiliBili Office',
+    server: '10.23.6.190',
+    port: 8080,
+    type: "http"
+  })
   config["proxy-groups"] = [
     {
       icon: "https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/Static.png",
@@ -77,7 +110,8 @@ function main(config) {
       proxies: ["AUTO", "HK AUTO", "SG AUTO", "JP AUTO", "US AUTO"],
       name: "GLOBAL",
       type: "select",
-    }
+    },
+    bilibiliProxyGroup
   ];
   if (!config['rule-providers']) {
     config['rule-providers'] = {};
@@ -195,9 +229,17 @@ function main(config) {
       format: "yaml",
       type: "http",
     },
-    personal: {
-      url: "https://raw.githubusercontent.com/Jadyli/sanqi_clash_rule/refs/heads/main/personal_rule.yaml",
-      path: "./ruleset/personal.yaml",
+    personal_rule_proxy: {
+      url: "https://gitee.com/sanqis/sanqi_clash_rule/raw/main/personal_rule_proxy.yaml",
+      path: "./ruleset/personal_rule_proxy.yaml",
+      behavior: "classical",
+      interval: 86400,
+      format: "yaml",
+      type: "http",
+    },
+    personal_rule_direct: {
+      url: "https://gitee.com/sanqis/sanqi_clash_rule/raw/main/personal_rule_direct.yaml",
+      path: "./ruleset/personal_rule_direct.yaml",
       behavior: "classical",
       interval: 86400,
       format: "yaml",
@@ -205,7 +247,7 @@ function main(config) {
     }
   });
 
-  config["rules"] = [
+  config["rules"] = customRules.concat([
     "RULE-SET,private,DIRECT",
     "RULE-SET,bing,AIGC",
     "RULE-SET,copilot,AIGC",
@@ -220,8 +262,9 @@ function main(config) {
     "RULE-SET,geolocation-!cn,PROXY",
     "RULE-SET,cn_domain,DIRECT",
     "RULE-SET,cn_ip,DIRECT",
-    "RULE-SET,personal,PROXY",
+    "RULE-SET,personal_rule_direct,DIRECT",
+    "RULE-SET,personal_rule_proxy,PROXY",
     "MATCH,PROXY",
-  ];
+  ]);
   return config;
 }
