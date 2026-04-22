@@ -28,7 +28,7 @@ function main(config) {
   }
   config['proxies'].push({
     name: 'BiliBili Office',
-    server: '10.23.6.73',
+    server: '10.23.6.133',
     port: 8080,
     type: "http"
   })
