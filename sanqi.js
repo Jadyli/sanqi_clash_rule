@@ -1,6 +1,7 @@
 // Bilibili 相关域名组
 const bilibiliDomains = [
   "bilibili.co",
+  "bilibili.com",
   "biligame.com",
   "biliapi.net",
   "biliintl.co",
