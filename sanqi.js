@@ -231,7 +231,7 @@ function main(config) {
       type: "http",
     },
     personal_rule_proxy: {
-      url: "https://gitee.com/sanqis/sanqi_clash_rule/raw/main/personal_rule_proxy.yaml",
+      url: "https://raw.githubusercontent.com/Jadyli/sanqi_clash_rule/refs/heads/main/personal_rule_proxy.yaml",
       path: "./ruleset/personal_rule_proxy.yaml",
       behavior: "classical",
       interval: 86400,
@@ -239,7 +239,7 @@ function main(config) {
       type: "http",
     },
     personal_rule_direct: {
-      url: "https://gitee.com/sanqis/sanqi_clash_rule/raw/main/personal_rule_direct.yaml",
+      url: "https://raw.githubusercontent.com/Jadyli/sanqi_clash_rule/refs/heads/main/personal_rule_direct.yaml",
       path: "./ruleset/personal_rule_direct.yaml",
       behavior: "classical",
       interval: 86400,
