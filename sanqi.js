@@ -13,6 +13,7 @@ const bilibiliDomains = [
 ];
 
 const customRules = [
+  "IP-CIDR,10.0.0.0/8,BiliBili Group,no-resolve",
   ...bilibiliDomains.map((domain) => `DOMAIN-SUFFIX,${domain},BiliBili Group`),
 ];
 
@@ -20,7 +21,7 @@ const customRules = [
 const bilibiliProxyGroup = {
   name: "BiliBili Group",
   type: "select",
-  proxies: ["DIRECT", "BiliBili Office"],
+  proxies: ["BiliBili Office", "DIRECT"],
 };
 
 function main(config) {
