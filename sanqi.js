@@ -13,13 +13,13 @@ const bilibiliDomains = [
 ];
 
 const customRules = [
-  "IP-CIDR,10.0.0.0/8,BiliBili Group,no-resolve",
-  ...bilibiliDomains.map((domain) => `DOMAIN-SUFFIX,${domain},BiliBili Group`),
+  "IP-CIDR,10.0.0.0/8,BiliBili,no-resolve",
+  ...bilibiliDomains.map((domain) => `DOMAIN-SUFFIX,${domain},BiliBili`),
 ];
 
 // Bilibili 代理组
 const bilibiliProxyGroup = {
-  name: "BiliBili Group",
+  name: "BiliBili",
   type: "select",
   proxies: ["BiliBili", "DIRECT"],
 };
