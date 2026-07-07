@@ -21,7 +21,7 @@ const customRules = [
 const bilibiliProxyGroup = {
   name: "BiliBili",
   type: "select",
-  proxies: ["BiliBili", "DIRECT"],
+  proxies: ["Bilibili-Webpage", "DIRECT"],
 };
 
 function main(config) {
@@ -29,7 +29,7 @@ function main(config) {
     config['proxies'] = []
   }
   config['proxies'].push({
-    name: 'BiliBili',
+    name: 'Bilibili-Webpage',
     server: '10.23.4.59',
     port: 8080,
     type: "http"
