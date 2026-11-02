@@ -113,6 +113,22 @@ function main(config) {
       name: "GLOBAL",
       type: "select",
     },
+    // CODEX is selected by the local watchdog. Never nest an AUTO group here.
+    {
+      name: "CODEX",
+      type: "select",
+      "include-all": true,
+      filter: "(?i)新加坡|Singapore|🇸🇬|日本|Japan|🇯🇵|美国|USA|United States|🇺🇸",
+      "exclude-filter": "(?i)GB|Traffic|Expire|频道|订阅|流量|到期|重置|实验|试用",
+    },
+    {
+      name: "CODEX-PROBE",
+      type: "select",
+      "include-all": true,
+      filter: "(?i)新加坡|Singapore|🇸🇬|日本|Japan|🇯🇵|美国|USA|United States|🇺🇸",
+      "exclude-filter": "(?i)GB|Traffic|Expire|频道|订阅|流量|到期|重置|实验|试用",
+      hidden: true,
+    },
     bilibiliProxyGroup
   ];
   if (!config['rule-providers']) {
@@ -249,12 +265,28 @@ function main(config) {
     }
   });
 
+  // Local HTTP probe entrance; it cannot accept remote clients.
+  config.listeners = (config.listeners || []).filter(
+    (listener) => listener.name !== "codex-watchdog-probe"
+  );
+  config.listeners.push({
+    name: "codex-watchdog-probe",
+    type: "mixed",
+    listen: "127.0.0.1",
+    port: 17992,
+    users: [],
+    proxy: "CODEX-PROBE",
+  });
+  config.profile = Object.assign({}, config.profile, { "store-selected": true });
+
   config["rules"] = customRules.concat([
+    "DOMAIN-SUFFIX,chatgpt.com,CODEX",
+    "DOMAIN-SUFFIX,openai.com,CODEX",
     "RULE-SET,private,DIRECT",
     "RULE-SET,bing,AIGC",
     "RULE-SET,copilot,AIGC",
     "RULE-SET,bard,AIGC",
-    "RULE-SET,openai,AIGC",
+    "RULE-SET,openai,CODEX",
     "RULE-SET,claude,AIGC",
     "RULE-SET,steam,PROXY",
     "RULE-SET,telegram_domain,Telegram",
