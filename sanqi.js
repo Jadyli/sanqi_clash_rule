@@ -34,6 +34,16 @@ function main(config) {
     port: 8080,
     type: "http"
   })
+  // Google health checks are independent of the shared regional AUTO groups.
+  const googleTestUrl = "https://www.google.com/generate_204";
+  const googleRegion = /香港|Hong Kong|🇭🇰|\bHK\b|新加坡|Singapore|🇸🇬|\bSG\b|日本|Japan|🇯🇵|\bJP\b|美国|美國|United States|🇺🇸|\bUSA?\b/i;
+  const googleIgnore = /GB|Traffic|Expire|Premium|频道|订阅|ISP|流量|到期|重置/i;
+  const googleOptions = ["HK AUTO", "SG AUTO", "JP AUTO", "US AUTO"];
+  const googleAutoName = "Google AUTO";
+  const googleNodes = [...new Set(config.proxies
+    .map(({ name }) => name)
+    .filter((name) => typeof name === "string" && googleRegion.test(name)
+      && !googleIgnore.test(name) && !googleOptions.includes(name) && name !== googleAutoName))];
   config["proxy-groups"] = [
     {
       icon: "https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/Static.png",
@@ -67,8 +77,17 @@ function main(config) {
       icon: "https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/Google.png",
       name: "Google",
       type: "select",
-      proxies: ["HK AUTO", "SG AUTO", "JP AUTO", "US AUTO"],
+      url: googleTestUrl,
+      proxies: [...googleOptions, ...(googleNodes.length ? [googleAutoName, ...googleNodes] : [])],
     },
+    ...(googleNodes.length ? [{
+      name: googleAutoName,
+      type: "url-test",
+      url: googleTestUrl,
+      "expected-status": 204,
+      interval: 300,
+      proxies: googleNodes,
+    }] : []),
     {
       icon: "https://testingcf.jsdelivr.net/gh/Orz-3/mini@master/Color/HK.png",
       "include-all": true,
