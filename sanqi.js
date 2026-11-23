@@ -136,6 +136,7 @@ function main(config) {
     {
       name: "CODEX",
       type: "select",
+      url: "https://chatgpt.com/robots.txt",
       "include-all": true,
       filter: "(?i)新加坡|Singapore|🇸🇬|日本|Japan|🇯🇵|美国|USA|United States|🇺🇸",
       "exclude-filter": "(?i)GB|Traffic|Expire|频道|订阅|流量|到期|重置|实验|试用",
